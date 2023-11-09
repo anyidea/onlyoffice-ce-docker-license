@@ -11,9 +11,11 @@ ARG oo_root
 ENV PRODUCT_VERSION=${product_version}
 ENV BUILD_NUMBER=${build_number}
 
-ARG build_deps="git make g++ nodejs npm"
-RUN apt-get update && apt-get install -y ${build_deps}
-#RUN npm config set registry https://registry.npm.taobao.org
+ARG build_deps="git make g++"
+RUN apt-get update && \
+    apt-get install -y ${build_deps} && \
+    snap install node --classic --channel=16/stable
+
 RUN npm install -g pkg grunt grunt-cli
 
 WORKDIR /build
