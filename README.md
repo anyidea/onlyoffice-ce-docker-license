@@ -1,6 +1,6 @@
 # Patched ONLYOFFICE Docs (Community Edition)
 
-[![Docker Image CI](https://github.com/aleho/onlyoffice-ce-docker-license/actions/workflows/docker-image.yml/badge.svg)](https://github.com/aleho/onlyoffice-ce-docker-license/actions/workflows/docker-image.yml)
+[![Docker Image CI](https://github.com/anyidea/onlyoffice-ce-docker-license/actions/workflows/docker-image.yml/badge.svg)](https://github.com/anyidea/onlyoffice-ce-docker-license/actions/workflows/docker-image.yml)
 
 ## Notes
 
