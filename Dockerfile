@@ -15,7 +15,7 @@ ARG build_deps="git make g++ curl dirmngr apt-transport-https lsb-release ca-cer
 RUN apt-get update && apt-get install -y ${build_deps} && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource-archive-keyring.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/nodesource-archive-keyring.gpg] https://deb.nodesource.com/node_16.x $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update
+    apt-get update && apt-get install nodejs
 RUN npm install -g pkg grunt grunt-cli
 
 WORKDIR /build
