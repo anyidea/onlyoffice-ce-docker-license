@@ -11,10 +11,12 @@ ARG oo_root
 ENV PRODUCT_VERSION=${product_version}
 ENV BUILD_NUMBER=${build_number}
 
-ARG build_deps="git make g++ nodejs npm"
-RUN apt-get update && apt-get install -y ${build_deps}
-#RUN npm config set registry https://registry.npm.taobao.org
-RUN npm install -g pkg grunt grunt-cli
+ARG build_deps="git make g++"
+RUN apt-get update && apt-get install -y ${build_deps} && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/nodesource-archive-keyring.gpg] https://deb.nodesource.com/node_16.x $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update && apt-get install -y nodejs && \
+    npm install -g pkg grunt grunt-cli
 
 WORKDIR /build
 
@@ -49,8 +51,8 @@ FROM path-stage as build-stage
 # build server with license checks patched
 WORKDIR /build/server
 RUN make
-RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/FileConverter --targets=node14-linux -o /build/converter
-RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocService --targets=node14-linux --options max_old_space_size=4096 -o /build/docservice
+RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/FileConverter --targets=node16-linux -o /build/converter
+RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocService --targets=node16-linux --options max_old_space_size=4096 -o /build/docservice
 
 # build web-apps with mobile editing
 WORKDIR /build/web-apps/build
