@@ -11,10 +11,10 @@ ARG oo_root
 ENV PRODUCT_VERSION=${product_version}
 ENV BUILD_NUMBER=${build_number}
 
-ARG build_deps="git make g++"
+ARG build_deps="git make g++ nodejs"
 RUN apt-get update && \
-    apt-get install -y ${build_deps} && \
-    snap install node --classic --channel=16/stable
+    curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - && \
+    apt-get install -y ${build_deps}
 
 RUN npm install -g pkg grunt grunt-cli
 
