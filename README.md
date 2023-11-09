@@ -1,6 +1,8 @@
 # Patched ONLYOFFICE Docs (Community Edition)
 
 [![Docker Image CI](https://github.com/anyidea/onlyoffice-ce-docker-license/actions/workflows/docker-image.yml/badge.svg)](https://github.com/anyidea/onlyoffice-ce-docker-license/actions/workflows/docker-image.yml)
+[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/aidenlu/oo-unlimit)](https://hub.docker.com/r/aidenlu/oo-chinese-unlimit)
+[![Docker Pulls](https://img.shields.io/docker/pulls/aidenlu/oo-unlimit)](https://hub.docker.com/r/aidenlu/oo-chinese-unlimit)
 
 ## Notes
 
