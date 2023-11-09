@@ -56,7 +56,6 @@ RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocServ
 
 # build web-apps with mobile editing
 WORKDIR /build/web-apps/build
-RUN ./sprites.sh
 RUN npm install
 RUN grunt
 
