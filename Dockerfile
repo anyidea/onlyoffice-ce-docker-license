@@ -11,7 +11,7 @@ ARG oo_root
 ENV PRODUCT_VERSION=${product_version}
 ENV BUILD_NUMBER=${build_number}
 
-ARG build_deps="git make g++"
+ARG build_deps="git make g++ bzip2"
 RUN apt-get update && apt-get install -y ${build_deps} && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource-archive-keyring.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/nodesource-archive-keyring.gpg] https://deb.nodesource.com/node_16.x $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/nodesource.list && \
