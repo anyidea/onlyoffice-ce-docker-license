@@ -11,11 +11,9 @@ ARG oo_root
 ENV PRODUCT_VERSION=${product_version}
 ENV BUILD_NUMBER=${build_number}
 
-ARG build_deps="git make g++ curl dirmngr apt-transport-https lsb-release ca-certificates"
-RUN apt-get update && apt-get install -y ${build_deps} && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/nodesource-archive-keyring.gpg] https://deb.nodesource.com/node_16.x $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update && apt-get install nodejs
+ARG build_deps="git make g++ nodejs npm"
+RUN apt-get update && apt-get install -y ${build_deps}
+#RUN npm config set registry https://registry.npm.taobao.org
 RUN npm install -g pkg grunt grunt-cli
 
 WORKDIR /build
