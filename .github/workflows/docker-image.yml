@@ -17,7 +17,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            name/app
+            aidenlu/oo-unlimit
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
