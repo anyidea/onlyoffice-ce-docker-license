@@ -24,4 +24,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: aidenlu/oo-unlimit:latest, aidenlu/oo-unlimit:7.5.1.1
+          tags: aidenlu/oo-unlimit:latest, aidenlu/oo-unlimit:8.0.0, aidenlu/oo-unlimit:8.0.0.1
