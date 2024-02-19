@@ -3,7 +3,7 @@ ARG build_number=105
 ARG oo_root='/var/www/onlyoffice/documentserver'
 
 ## Setup
-FROM onlyoffice/documentserver:${product_version} as setup-stage
+FROM onlyoffice/documentserver:8.0.0 as setup-stage
 ARG product_version
 ARG build_number
 ARG oo_root
@@ -29,8 +29,17 @@ ARG tag=v${PRODUCT_VERSION}.${BUILD_NUMBER}
 RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/build_tools.git /build/build_tools
 RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/server.git      /build/server
 
+# Working mobile editor
+RUN git clone --quiet --depth 1 https://github.com/ONLYOFFICE/sdkjs.git       /build/sdkjs
+RUN git clone --quiet --depth 1 https://github.com/ONLYOFFICE/web-apps.git    /build/web-apps
+
 ## Build
 FROM clone-stage as path-stage
+
+# Patch
+COPY web-apps.patch /build/web-apps.patch
+RUN cd /build/web-apps   && git apply /build/web-apps.patch
+
 
 COPY server.patch /build/server.patch
 RUN cd /build/server   && git apply --ignore-space-change --ignore-whitespace /build/server.patch
@@ -45,11 +54,20 @@ RUN make
 RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/FileConverter --targets=node16-linux -o /build/converter
 RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocService --targets=node16-linux --options max_old_space_size=4096 -o /build/docservice
 
+# build web-apps with mobile editing
+WORKDIR /build/web-apps/build
+RUN npm install
+RUN grunt
+
 ## Final image
-FROM onlyoffice/documentserver:${product_version}
+FROM onlyoffice/documentserver:8.0.0
 ARG oo_root
 
 #server
 COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/converter
 COPY --from=build-stage /build/docservice ${oo_root}/server/DocService/docservice
 
+# Restore mobile editing using an old version of mobile editor
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/documenteditor/mobile     ${oo_root}/web-apps/apps/documenteditor/mobile
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/presentationeditor/mobile ${oo_root}/web-apps/apps/presentationeditor/mobile
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/spreadsheeteditor/mobile  ${oo_root}/web-apps/apps/spreadsheeteditor/mobile
