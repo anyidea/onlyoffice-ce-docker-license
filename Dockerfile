@@ -1,4 +1,5 @@
 ARG product_version=8.0.0
+ARG build_tag=v8.0.1.30
 ARG build_number=1
 ARG oo_root='/var/www/onlyoffice/documentserver'
 
@@ -24,10 +25,10 @@ WORKDIR /build
 
 ## Clone
 FROM setup-stage as clone-stage
-ARG tag=v${PRODUCT_VERSION}.${BUILD_NUMBER}
+ARG build_tag
 
-RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/build_tools.git /build/build_tools
-RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/server.git      /build/server
+RUN git clone --quiet --branch $build_tag --depth 1 https://github.com/ONLYOFFICE/build_tools.git /build/build_tools
+RUN git clone --quiet --branch $build_tag --depth 1 https://github.com/ONLYOFFICE/server.git      /build/server
 
 ## Build
 FROM clone-stage as path-stage
