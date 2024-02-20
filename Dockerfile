@@ -3,7 +3,7 @@ ARG build_number=1
 ARG oo_root='/var/www/onlyoffice/documentserver'
 
 ## Setup
-FROM onlyoffice/documentserver:${product_version} as setup-stage
+FROM onlyoffice/documentserver:${product_version}.${build_number} as setup-stage
 ARG product_version
 ARG build_number
 ARG oo_root
@@ -46,7 +46,7 @@ RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/FileCon
 RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocService --targets=node16-linux --options max_old_space_size=4096 -o /build/docservice
 
 ## Final image
-FROM onlyoffice/documentserver:${product_version}
+FROM onlyoffice/documentserver:${product_version}.${build_number}
 ARG oo_root
 
 #server
