@@ -51,6 +51,6 @@ FROM onlyoffice/documentserver:${product_version}.${build_number}
 ARG oo_root
 
 #server
-COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/converter
+# COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/converter
 COPY --from=build-stage /build/docservice ${oo_root}/server/DocService/docservice
 
