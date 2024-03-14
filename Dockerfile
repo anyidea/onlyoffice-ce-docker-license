@@ -40,6 +40,10 @@ RUN cd /build/server && git apply --ignore-space-change --ignore-whitespace /bui
 ## Build
 FROM path-stage as build-stage
 
+# install ms
+WORKDIR /build/build_tools/out/linux_64/onlyoffice/documentserver/server/FileConverter
+RUN npm install ms --save-dev
+
 # build server with license checks patched
 WORKDIR /build/server
 RUN make
@@ -51,6 +55,6 @@ FROM onlyoffice/documentserver:${product_version}.${build_number}
 ARG oo_root
 
 #server
-# COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/converter
+COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/converter
 COPY --from=build-stage /build/docservice ${oo_root}/server/DocService/docservice
 
